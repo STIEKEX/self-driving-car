@@ -2,10 +2,33 @@ body {
     margin: 0;
     background-color: darkgray;
     overflow: hidden;
-    text-align: center;
+    display:flex ; 
+    justify-content: center;
+    align-items: center;
 
 }
-Canvas {
+
+#verticalButtons {
+    display : flex ; 
+    flex-direction: column;
+}
+
+#carCanvas {
     background-color: lightgray;
-   
+
+}
+#networkCanvas{
+    background-color: black ;
+}
+
+button{
+    border:none ; 
+    border-radius: 5px ;
+    padding : 5px 5px 7px 5px ; 
+    margin : 2px ; 
+    cursor : pointer ; 
+}
+
+button:hover{
+    background:blue ; 
 }
