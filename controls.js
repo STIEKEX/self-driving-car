@@ -12,12 +12,14 @@ class Controls{
             case "DUMMY":
                 this.forward=true;
                 break;
+            // "AI" and "RULE": the car sets these itself every frame
         }
-        // this.#addKeyboardListeners();
     }
 
+    // addEventListener (not document.onkeydown=...) so a new car never
+    // silently replaces another car's keyboard handler
     #addKeyboardListeners(){
-        document.onkeydown=(event)=>{
+        document.addEventListener("keydown",(event)=>{
             switch(event.key){
                 case "ArrowLeft":
                     this.left=true;
@@ -32,9 +34,8 @@ class Controls{
                     this.reverse=true;
                     break;
             }
-            console.table(this);
-        }
-        document.onkeyup=(event)=>{
+        });
+        document.addEventListener("keyup",(event)=>{
             switch(event.key){
                 case "ArrowLeft":
                     this.left=false;
@@ -49,7 +50,6 @@ class Controls{
                     this.reverse=false;
                     break;
             }
-            console.table(this);
-        }
+        });
     }
 }

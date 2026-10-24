@@ -6,19 +6,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="panel">
+        <pre id="stats"></pre>
+        <div class="chartLabel">Best car per generation<br>(green: still driving, orange: crashed)</div>
+        <canvas id="chartCanvas"></canvas>
+    </div>
     <canvas id="carCanvas"></canvas>
     <div id="verticalButtons">
-        <button onclick="save()">Save</button>
-        <button onclick="discard()">Discard</button>
+        <button onclick="save()" title="Save the best car's brain now">Save</button>
+        <button onclick="nextGeneration()" title="Keep the best brain and start the next generation">Next gen</button>
+        <button id="autoButton" onclick="toggleAutoTrain()" title="Start the next generation automatically">Auto-train: OFF</button>
+        <button id="speedButton" onclick="toggleSpeed()" title="Simulation steps per frame">Speed: x1</button>
+        <button onclick="loadTrained()" title="Start again from the brain trained offline">Load trained</button>
+        <button onclick="discard()" title="Forget the saved brain and start from random brains">Discard</button>
     </div>
     <canvas id="networkCanvas"></canvas>
+    <script src="utils.js"></script>
     <script src="network.js"></script>
     <script src="visualizer.js"></script>
     <script src="sensor.js"></script>
-    <script src="utils.js"></script>
     <script src="road.js"></script>
     <script src="controls.js"></script>
     <script src="car.js"></script>
+    <script src="traffic.js"></script>
+    <script src="baseline.js"></script>
+    <script src="pretrained.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

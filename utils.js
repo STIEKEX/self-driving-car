@@ -6,6 +6,19 @@ function sigmoid(x){
     return 1/(1+Math.exp(-x));
 }
 
+// seeded random numbers in [0,1) (mulberry32): the same seed always gives the
+// same sequence, so a "random" traffic layout can be reproduced exactly
+function createRandom(seed){
+    let a=seed>>>0;
+    return function(){
+        a=(a+0x6D2B79F5)>>>0;
+        let t=a;
+        t=Math.imul(t^(t>>>15),t|1);
+        t^=t+Math.imul(t^(t>>>7),t|61);
+        return ((t^(t>>>14))>>>0)/4294967296;
+    };
+}
+
 // positive -> yellow, negative -> blue, bigger value -> less transparent
 function getRGBA(value){
     const alpha=Math.abs(value);

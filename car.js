@@ -1,5 +1,6 @@
 class Car{
-    constructor(x,y,width,height , controlType , mapSpeed =3){
+    // controlType: "KEYS" (arrow keys), "AI" (neural network), "RULE" (hand-written baseline), "DUMMY" (traffic)
+    constructor(x,y,width,height , controlType , maxSpeed =3){
         this.x=x;
         this.y=y;
         this.width=width;
@@ -7,32 +8,36 @@ class Car{
 
         this.speed=0;
         this.acceleration=0.2;
-        this.maxSpeed=mapSpeed;
+        this.maxSpeed=maxSpeed;
         this.friction=0.05;
         this.angle=0;
         this.damage=false;
-        this.color="black";
-        this.score=0;
+        // a car must have a shape as soon as it exists, so it can be drawn before its first update
+        this.polygon=this.#createPolygon();
 
+        this.controlType=controlType;
         this.useBrain=controlType=="AI";
         if(controlType!="DUMMY"){
-            this.sensor=new sensor(this);
+            this.sensor=new Sensor(this);
             this.brain=new NeuralNetwork(
                 [this.sensor.rayCount , 6 , 4]
             );
         }
-        // this.sensor=new sensor(this);
         this.controls=new Controls(controlType);
     }
 
     update(roadBorders , traffic){
-        if (!this.damage){
+        // a crashed car stays where it is, so it has nothing left to compute
+        if(this.damage){
+            return;
+        }
         this.#move();
         this.polygon=this.#createPolygon();
         this.damage=this.#assessDamage(roadBorders , traffic);
-        }
+
         if(this.sensor){
             this.sensor.update(roadBorders , traffic);
+            // close obstacle -> value near 1, nothing seen -> 0
             const offsets=this.sensor.readings.map(s=>s==null?0:1-s.offset);
             const outputs=NeuralNetwork.feedForward(offsets , this.brain);
             if(this.useBrain){
@@ -40,9 +45,10 @@ class Car{
                 this.controls.reverse=outputs[1]>0.5;
                 this.controls.left=outputs[2]>0.5;
                 this.controls.right=outputs[3]>0.5;
-            } 
-
-            
+            }
+            if(this.controlType=="RULE"){
+                Object.assign(this.controls , ruleDriver(offsets));
+            }
         }
     }
 
@@ -52,7 +58,7 @@ class Car{
                 return true;
             }
         }
-         for(let i=0;i<traffic.length;i++){
+        for(let i=0;i<traffic.length;i++){
             if(polysIntersect(this.polygon,traffic[i].polygon)){
                 return true;
             }
@@ -131,7 +137,6 @@ class Car{
             ctx.fillStyle=color;
         }
         ctx.beginPath();
-        // ctx.fillStyle="red";
         ctx.moveTo(this.polygon[0].x,this.polygon[0].y);
         for(let i=1;i<this.polygon.length;i++){
             ctx.lineTo(this.polygon[i].x,this.polygon[i].y);

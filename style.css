@@ -30,5 +30,25 @@ button{
 }
 
 button:hover{
-    background:blue ; 
+    background:blue ;
+}
+
+#panel {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-family: monospace;
+    text-align: left;
+}
+
+#stats {
+    margin: 0 0 6px 0;
+}
+
+.chartLabel {
+    font-size: 11px;
+}
+
+#chartCanvas {
+    background-color: black;
 }

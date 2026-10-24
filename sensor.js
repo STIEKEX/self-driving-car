@@ -1,4 +1,4 @@
- class sensor {
+class Sensor {
     constructor(car) {
         this.car = car;
         this.rayCount = 5;
@@ -80,7 +80,8 @@
     }
 
     draw(ctx){
-        for(let i = 0; i < this.rayCount; i++){
+        // rays.length, not rayCount: before the first update no rays have been cast yet
+        for(let i = 0; i < this.rays.length; i++){
             let end = this.rays[i][1];
             if(this.readings[i]){
                 end = this.readings[i];
