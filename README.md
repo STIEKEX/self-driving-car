@@ -1,5 +1,7 @@
 # Self-Driving Car (No Libraries)
 
+**[▶ Live demo](https://stiekex.github.io/self-driving-car/)** — runs in your browser, nothing to install.
+
 A car that learns to drive through traffic, written in plain JavaScript with the
 HTML canvas: no frameworks and no ML libraries.
 
@@ -14,7 +16,8 @@ from mutated copies of it.
 
 ## How to run
 
-No install or build step is needed.
+No install or build step is needed. The easiest way is the
+[live demo](https://stiekex.github.io/self-driving-car/). To run it locally:
 
 1. Clone the repo:
    ```bash
